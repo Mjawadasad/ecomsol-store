@@ -1,0 +1,35 @@
+# EcomSol Store - Handcrafted Cosplay Accessories
+
+> EcomSol Store (ecomsol.store) sells original handcrafted cosplay accessories including animal ears, tails, and matched sets. All products feature premium faux fur, are 100% cruelty-free, and are designed for convention/cosplay use.
+
+## Products
+
+### Cat Ears
+- Brown Faux Fur Cat Ears Headband - $30.00 - Realistic dark brown with cream tufts and pink inner ear
+- White Cat Ears with Blue Organza Ribbons - $35.00 - Fairy lolita style with purple flowers
+- Grey and Deep Rose Poseable Bunny Rabbit Ears Headband - $40.00 - Fully poseable with wire core
+
+### Ears & Tail Sets
+- White Curly Plush Cat Ears and Tail Set - $32.00 - Kawaii style with unique curly texture
+- Black Faux Fur Cat Ears and Tail Set - $38.00 - Realistic black cat with cream tufts
+- Neon Green and Black Cat Ears and Tail Set - From $25.00 - Electric rave style, ears/tail/set options
+- Red Fox Ears and Tail Set - From $28.00 - Realistic red fox, ears/tail/set options
+
+## Key Facts
+- All products are original designs
+- Materials: Premium faux fur, metal headbands, flexible wire cores, belt straps
+- Price range: $25-$50
+- Ships worldwide within 3-5 business days
+- All purchases through Etsy shop (etsy.com/shop/ecomsolstore)
+- 100% cruelty-free synthetic materials
+
+## Site Structure
+- Homepage: /
+- All Products: /shop
+- Product Pages: /shop/[product-slug]
+- Categories: /category/ears, /category/tails, /category/sets
+- About: /about
+- FAQ: /faq
+
+## Contact
+- Etsy Shop: https://www.etsy.com/shop/ecomsolstore
