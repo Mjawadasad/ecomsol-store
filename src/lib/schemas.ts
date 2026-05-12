@@ -36,7 +36,7 @@ export function organizationSchema() {
     url: SITE_URL,
     sameAs: ["https://www.etsy.com/shop/ecomsolstore"],
     description:
-      "Multi-category e-commerce store curating quality products from trusted marketplaces.",
+      "Multi-category e-commerce store offering quality handcrafted products with worldwide shipping.",
   };
 }
 

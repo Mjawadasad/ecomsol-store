@@ -6,7 +6,7 @@ import { breadcrumbSchema } from "@/lib/schemas";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "ECOMSOL is a multi-category e-commerce platform curating quality products from trusted marketplaces. Learn about our mission and vision.",
+    "ECOMSOL is a multi-category e-commerce store offering quality products across diverse categories with worldwide shipping. Learn about our mission.",
 };
 
 export default function AboutPage() {
@@ -29,29 +29,26 @@ export default function AboutPage() {
 
         <div className="space-y-6 text-fg-secondary leading-relaxed">
           <p className="text-lg">
-            ECOMSOL is a multi-category e-commerce platform that curates
-            quality products and connects you with trusted marketplaces for
-            secure purchasing.
+            ECOMSOL is a multi-category e-commerce store offering quality
+            products across diverse categories — from handcrafted accessories
+            to everyday essentials and beyond.
           </p>
           <p>
             We believe shopping online should be simple and trustworthy. We
-            carefully select products across different categories, provide
-            detailed information and images, and then connect you to
-            established marketplaces like Etsy where you can buy with full
-            buyer protection.
+            source and sell products we stand behind, handle fulfillment
+            ourselves, and ship directly to customers worldwide.
           </p>
           <p>
-            Our first category is handcrafted faux fur accessories - cosplay
+            Our first category is handcrafted faux fur accessories — cosplay
             ears, tails, costume sets, and more. Every product in this
-            collection is an original design, made with premium materials by
-            skilled artisans. But this is just the beginning.
+            collection is an original design, made with premium materials.
+            You can find these on our Etsy store as well.
           </p>
           <p>
             We&apos;re building ECOMSOL to grow into a multi-category
             destination where you can discover quality products across many
-            different verticals - from home goods to fashion accessories to
-            tech gadgets. Our mission is to be the catalog you trust, backed
-            by marketplaces you already know.
+            different verticals — from home goods to fashion accessories to
+            tech gadgets. New categories are always on the way.
           </p>
         </div>
 
@@ -60,18 +57,18 @@ export default function AboutPage() {
           {[
             {
               icon: Palette,
-              title: "Curated Quality",
-              text: "We don't list everything - we select products that meet our standards for quality, design, and value.",
+              title: "Quality First",
+              text: "We only sell products that meet our standards for quality, design, and value.",
             },
             {
               icon: Heart,
               title: "Ethical Sourcing",
-              text: "We prioritize cruelty-free materials and work with artisans who care about their craft.",
+              text: "We prioritize cruelty-free materials and responsible sourcing across all our product lines.",
             },
             {
               icon: Award,
-              title: "Marketplace Trust",
-              text: "Every purchase goes through established marketplaces with buyer protection - never through unverified channels.",
+              title: "Direct & Reliable",
+              text: "We handle fulfillment and ship directly to you. Secure checkout and hassle-free returns on every order.",
             },
             {
               icon: Globe,
@@ -104,18 +101,18 @@ export default function AboutPage() {
               },
               {
                 step: "2",
-                title: "Choose your marketplace",
-                desc: "Each product links to a trusted marketplace (Etsy, Amazon, etc.) where you can make your purchase securely.",
+                title: "Place your order",
+                desc: "Add items to your cart and checkout securely. We accept all major payment methods.",
               },
               {
                 step: "3",
-                title: "Buy with confidence",
-                desc: "Checkout through the marketplace with their full buyer protection, secure payments, and customer support.",
+                title: "We ship to you",
+                desc: "We handle fulfillment and ship directly to your door. Track your order every step of the way.",
               },
               {
                 step: "4",
                 title: "Enjoy your purchase",
-                desc: "Your order ships directly from the seller. We're here to help if you need anything.",
+                desc: "Love what you got? Great. Need help? Our support team is always here for you.",
               },
             ].map((s) => (
               <div key={s.step} className="flex gap-4 items-start">

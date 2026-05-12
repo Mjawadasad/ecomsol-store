@@ -1,6 +1,6 @@
-# ECOMSOL - Multi-Category E-Commerce Catalog
+# ECOMSOL - Multi-Category E-Commerce Store
 
-> ECOMSOL (ecomsol.store) is a multi-category e-commerce platform curating quality products from trusted marketplaces. All purchases redirect to external marketplaces (Etsy, Amazon) with full buyer protection.
+> ECOMSOL (ecomsol.store) is a multi-category e-commerce store selling quality products across diverse categories with worldwide shipping. Some products are also available on our Etsy store.
 
 ## Current Categories
 
@@ -20,8 +20,8 @@ Handcrafted faux fur costume accessories for cosplay, conventions, and everyday 
 ## Key Facts
 - All faux fur products are original designs, 100% cruelty-free
 - Ships worldwide within 3-5 business days
-- All purchases through Etsy shop (etsy.com/shop/ecomsolstore)
-- Built to scale to many product categories over time
+- Faux fur accessories also available on Etsy (etsy.com/shop/ecomsolstore)
+- Growing to many product categories over time
 
 ## Site Structure
 - Homepage: /
@@ -33,5 +33,5 @@ Handcrafted faux fur costume accessories for cosplay, conventions, and everyday 
 - FAQ: /faq
 
 ## Contact
-- Etsy Shop: https://www.etsy.com/shop/ecomsolstore
 - Email: hello@ecomsol.store
+- Etsy Shop: https://www.etsy.com/shop/ecomsolstore

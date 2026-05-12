@@ -8,7 +8,7 @@ import { breadcrumbSchema, itemListSchema } from "@/lib/schemas";
 export const metadata: Metadata = {
   title: "Shop All Products",
   description:
-    "Browse our full catalog of products across all categories. Find quality items and shop with confidence through trusted marketplaces.",
+    "Browse our full catalog of products across all categories. Quality handcrafted items with secure checkout and worldwide shipping.",
 };
 
 export default function ShopPage() {

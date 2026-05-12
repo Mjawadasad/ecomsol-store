@@ -25,12 +25,12 @@ export default function Home() {
             <div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1]">
                 Quality Products,{" "}
-                <span className="text-primary">Trusted</span> Marketplaces
+                <span className="text-primary">Delivered</span> Worldwide
               </h1>
               <p className="mt-6 text-lg text-fg-secondary leading-relaxed max-w-xl">
-                Browse our curated catalog of handcrafted products. Find what
-                you love here, then purchase with confidence through trusted
-                marketplaces like Etsy.
+                Discover handcrafted products made with premium materials. Shop
+                directly from ECOMSOL or visit our Etsy store — either way, we
+                ship worldwide.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-4">
                 <Link
@@ -195,8 +195,8 @@ export default function Home() {
               },
               {
                 icon: Shield,
-                title: "Buyer Protection",
-                desc: "Shop through trusted marketplaces with full buyer protection and secure checkout.",
+                title: "Secure Checkout",
+                desc: "Shop with confidence through our secure checkout. Your payment info is always protected.",
               },
               {
                 icon: Truck,
@@ -206,7 +206,7 @@ export default function Home() {
               {
                 icon: ArrowRight,
                 title: "Easy Returns",
-                desc: "Not satisfied? Returns and exchanges handled through marketplace policies.",
+                desc: "Not satisfied? We offer hassle-free returns and exchanges on all orders.",
               },
             ].map((prop) => (
               <div key={prop.title} className="text-center">
@@ -230,8 +230,8 @@ export default function Home() {
             Ready to Find Something You Love?
           </h2>
           <p className="mt-3 text-white/80 max-w-lg mx-auto">
-            Browse our full catalog and shop through trusted marketplaces with
-            secure checkout and buyer protection.
+            Browse our full catalog of handcrafted products. Secure checkout and
+            worldwide shipping on every order.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row justify-center gap-4">
             <Link

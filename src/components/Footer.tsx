@@ -15,8 +15,8 @@ export default function Footer() {
               <span className="text-lg font-bold">ECOMSOL</span>
             </Link>
             <p className="text-sm text-fg-secondary leading-relaxed">
-              Quality products curated from trusted marketplaces. Browse our
-              catalog and shop with confidence.
+              Quality handcrafted products, shipped directly to your door.
+              Also available on Etsy.
             </p>
           </div>
 
@@ -79,8 +79,7 @@ export default function Footer() {
           <div>
             <h3 className="text-sm font-semibold mb-3">Ready to Shop?</h3>
             <p className="text-sm text-fg-secondary mb-4">
-              All purchases are handled through trusted marketplaces with buyer
-              protection.
+              Browse our catalog and order with confidence. We ship worldwide.
             </p>
             <a
               href="https://www.etsy.com/shop/ecomsolstore"

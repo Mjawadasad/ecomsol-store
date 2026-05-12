@@ -12,11 +12,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "ECOMSOL - Quality Products from Trusted Marketplaces",
+    default: "ECOMSOL - Quality Products, Delivered Worldwide",
     template: "%s | ECOMSOL",
   },
   description:
-    "Browse our curated catalog of quality products across multiple categories. Shop with confidence through trusted marketplaces like Etsy and Amazon.",
+    "Shop quality handcrafted products across multiple categories at ECOMSOL. Cosplay accessories, faux fur ears, and more — shipped directly to your door.",
   keywords: [
     "online store",
     "e-commerce",
@@ -33,15 +33,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "ECOMSOL",
-    title: "ECOMSOL - Quality Products from Trusted Marketplaces",
+    title: "ECOMSOL - Quality Products, Delivered Worldwide",
     description:
-      "Browse our curated catalog of quality products. Shop with confidence through trusted marketplaces.",
+      "Shop quality handcrafted products at ECOMSOL. Secure checkout and worldwide shipping on every order.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ECOMSOL - Quality Products from Trusted Marketplaces",
+    title: "ECOMSOL - Quality Products, Delivered Worldwide",
     description:
-      "Browse our curated catalog of quality products. Shop with confidence through trusted marketplaces.",
+      "Shop quality handcrafted products at ECOMSOL. Secure checkout and worldwide shipping on every order.",
   },
   robots: {
     index: true,

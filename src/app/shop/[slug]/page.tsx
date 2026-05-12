@@ -53,7 +53,7 @@ export default async function ProductPage({ params }: Props) {
     },
     {
       question: "How does purchasing work?",
-      answer: `Click the "Buy on ${product.marketplace.name.charAt(0).toUpperCase() + product.marketplace.name.slice(1)}" button to be taken to the marketplace listing where you can securely checkout with full buyer protection.`,
+      answer: `Click the "Buy on ${product.marketplace.name.charAt(0).toUpperCase() + product.marketplace.name.slice(1)}" button to purchase through our ${product.marketplace.name.charAt(0).toUpperCase() + product.marketplace.name.slice(1)} store. We handle fulfillment and ship directly to you.`,
     },
     {
       question: "How long does shipping take?",

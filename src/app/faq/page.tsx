@@ -6,7 +6,7 @@ import { breadcrumbSchema, faqSchema } from "@/lib/schemas";
 export const metadata: Metadata = {
   title: "FAQ - Frequently Asked Questions",
   description:
-    "Common questions about ECOMSOL - ordering, shipping, products, care instructions, returns, and more.",
+    "Common questions about ECOMSOL — ordering, shipping, products, care instructions, returns, and more.",
 };
 
 const faqs = [
@@ -16,17 +16,17 @@ const faqs = [
       {
         question: "How do I buy products from ECOMSOL?",
         answer:
-          'Browse products here on ecomsol.store, then click the marketplace button (e.g., "Buy on Etsy") on any product page. You\'ll be taken to the marketplace listing where you can securely checkout with full buyer protection.',
+          "Browse products here on ecomsol.store, add items to your cart, and checkout securely. We handle fulfillment and ship directly to you.",
       },
       {
         question: "Do you accept custom orders?",
         answer:
-          "Custom orders depend on the specific seller and marketplace. Check the marketplace listing for custom order options or contact the seller directly.",
+          "We offer custom options on select products. Check the product page for available customizations or contact us directly to discuss your needs.",
       },
       {
         question: "What payment methods do you accept?",
         answer:
-          "Since purchases go through marketplaces like Etsy, you can use any payment method they accept - credit/debit cards, PayPal, Apple Pay, Google Pay, and more.",
+          "We accept all major payment methods including credit/debit cards, PayPal, Apple Pay, Google Pay, and more.",
       },
     ],
   },
@@ -66,7 +66,7 @@ const faqs = [
       {
         question: "Do you ship internationally?",
         answer:
-          "Yes! We ship worldwide through our marketplace partners. International shipping is available to most countries.",
+          "Yes! We ship worldwide. International shipping is available to most countries.",
       },
       {
         question: "How will my order be packaged?",
@@ -96,12 +96,12 @@ const faqs = [
       {
         question: "What is your return policy?",
         answer:
-          "Returns and exchanges are handled through the marketplace where you purchased. If you have any issues, reach out through the marketplace messaging system.",
+          "We offer hassle-free returns and exchanges. If you have any issues with your order, contact us and we will make it right.",
       },
       {
         question: "My order arrived damaged. What do I do?",
         answer:
-          "Contact the seller immediately through the marketplace with photos of the damage. All marketplace purchases include buyer protection.",
+          "Contact us immediately with photos of the damage. We will arrange a replacement or refund as quickly as possible.",
       },
     ],
   },
@@ -165,16 +165,14 @@ export default function FAQPage() {
         <div className="mt-10 rounded-2xl bg-primary p-8 text-center text-white">
           <h2 className="text-xl font-bold">Still Have Questions?</h2>
           <p className="mt-2 text-white/80 text-sm">
-            Reach out through our Etsy shop and we&apos;ll get back to you.
+            Drop us a message and we&apos;ll get back to you.
           </p>
           <div className="mt-4 flex flex-col sm:flex-row justify-center gap-4">
             <a
-              href="https://www.etsy.com/shop/ecomsolstore"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="mailto:hello@ecomsol.store"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-primary hover:bg-white/90 transition-colors"
             >
-              Contact on Etsy
+              Email Us
             </a>
             <Link
               href="/shop"
