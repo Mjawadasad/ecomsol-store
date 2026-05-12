@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
-import { ShoppingBag, ChevronRight, Package, Truck, Shield, Sparkles } from "lucide-react";
-import { products, getProductBySlug } from "@/data/products";
+import { Package, Truck, Shield } from "lucide-react";
+import { getAllProducts, getProductBySlug, getRelatedProducts, getCategory, getSubcategory } from "@/data";
 import { productSchema, breadcrumbSchema, faqSchema } from "@/lib/schemas";
 import ProductCard from "@/components/ProductCard";
+import ImageGallery from "@/components/ImageGallery";
+import BuyButton from "@/components/BuyButton";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import MarketplaceBadge from "@/components/MarketplaceBadge";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
 export async function generateStaticParams() {
-  return products.map((product) => ({
-    slug: product.slug,
-  }));
+  return getAllProducts().map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -22,13 +23,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = getProductBySlug(slug);
   if (!product) return {};
 
+  const img = product.images[0];
   return {
     title: product.name,
     description: product.shortDescription,
     openGraph: {
       title: product.name,
       description: product.shortDescription,
-      images: [{ url: product.images[0], width: 2000, height: 2000, alt: product.name }],
+      images: img
+        ? [{ url: img.src, width: img.width, height: img.height, alt: img.alt }]
+        : [],
     },
   };
 }
@@ -38,18 +42,49 @@ export default async function ProductPage({ params }: Props) {
   const product = getProductBySlug(slug);
   if (!product) notFound();
 
-  const relatedProducts = products
-    .filter((p) => p.id !== product.id && p.categories.some((c) => product.categories.includes(c)))
-    .slice(0, 4);
+  const category = getCategory(product.categorySlug);
+  const subcategory = getSubcategory(product.categorySlug, product.subcategorySlug);
+  const related = getRelatedProducts(product, 4);
 
   const productFaqs = [
-    { question: `What materials are the ${product.shortName} made of?`, answer: product.materials.join(", ") + ". All materials are 100% cruelty-free and synthetic." },
-    { question: `How do I care for my ${product.shortName}?`, answer: product.careTips.join(" ") },
-    { question: "How does shipping work?", answer: "We ship within 3-5 business days. International shipping is available worldwide. All orders are processed through our Etsy shop for secure checkout and tracking." },
-    { question: "What size will fit me?", answer: "Our headbands are one size fits most and work great over wigs too. Tails attach with adjustable belt straps for a secure, comfortable fit." },
+    {
+      question: `What materials is this made of?`,
+      answer: `${product.materials.join(", ")}. All materials are cruelty-free and synthetic.`,
+    },
+    {
+      question: "How does purchasing work?",
+      answer: `Click the "Buy on ${product.marketplace.name.charAt(0).toUpperCase() + product.marketplace.name.slice(1)}" button to be taken to the marketplace listing where you can securely checkout with full buyer protection.`,
+    },
+    {
+      question: "How long does shipping take?",
+      answer: "Orders ship within 3-5 business days. International shipping is available worldwide.",
+    },
   ];
 
-  const descriptionParagraphs = product.description.split("\n\n");
+  const breadcrumbItems = [
+    { label: "Shop", href: "/shop" },
+    ...(category
+      ? [{ label: category.name, href: `/category/${category.slug}` }]
+      : []),
+    ...(subcategory
+      ? [
+          {
+            label: subcategory.name,
+            href: `/category/${product.categorySlug}/${subcategory.slug}`,
+          },
+        ]
+      : []),
+    { label: product.shortName },
+  ];
+
+  const breadcrumbSchemaItems = [
+    { name: "Home", url: "/" },
+    { name: "Shop", url: "/shop" },
+    ...(category
+      ? [{ name: category.name, url: `/category/${category.slug}` }]
+      : []),
+    { name: product.shortName, url: `/shop/${product.slug}` },
+  ];
 
   return (
     <>
@@ -62,13 +97,7 @@ export default async function ProductPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            breadcrumbSchema([
-              { name: "Home", url: "/" },
-              { name: "Shop", url: "/shop" },
-              { name: product.shortName, url: `/shop/${product.slug}` },
-            ])
-          ),
+          __html: JSON.stringify(breadcrumbSchema(breadcrumbSchemaItems)),
         }}
       />
       <script
@@ -79,199 +108,195 @@ export default async function ProductPage({ params }: Props) {
       />
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        {/* Breadcrumbs */}
-        <nav className="flex items-center gap-1 text-sm text-foreground-muted mb-8">
-          <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
-          <ChevronRight className="h-4 w-4" />
-          <Link href="/shop" className="hover:text-foreground transition-colors">Shop</Link>
-          <ChevronRight className="h-4 w-4" />
-          <span className="text-foreground">{product.shortName}</span>
-        </nav>
+        <Breadcrumbs items={breadcrumbItems} />
 
-        {/* Product Layout */}
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14">
+        <div className="mt-8 grid lg:grid-cols-2 gap-10 lg:gap-14">
           {/* Image Gallery */}
-          <div className="space-y-4">
-            {/* Main image */}
-            <div className="relative aspect-square rounded-2xl overflow-hidden border border-border bg-background-secondary">
-              <Image
-                src={product.images[0]}
-                alt={product.name}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-                priority
-              />
-            </div>
-            {/* Thumbnails */}
-            {product.images.length > 1 && (
-              <div className="grid grid-cols-4 gap-3">
-                {product.images.slice(1, 5).map((img, i) => (
-                  <div
-                    key={i}
-                    className="relative aspect-square rounded-lg overflow-hidden border border-border bg-background-secondary"
-                  >
-                    <Image
-                      src={img}
-                      alt={`${product.name} - view ${i + 2}`}
-                      fill
-                      sizes="150px"
-                      className="object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <ImageGallery images={product.images} />
 
           {/* Product Info */}
           <div>
-            {/* Category badge */}
-            <Link
-              href={`/category/${product.category}`}
-              className="inline-flex items-center gap-1 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs text-accent hover:bg-accent/20 transition-colors mb-4"
-            >
-              {product.category === "sets" ? "Ears & Tail Set" : product.category === "ears" ? "Ears" : "Tail"}
-            </Link>
+            <div className="flex items-center gap-2 mb-3">
+              <MarketplaceBadge
+                marketplace={product.marketplace.name}
+                size="md"
+              />
+              {subcategory && (
+                <Link
+                  href={`/category/${product.categorySlug}/${product.subcategorySlug}`}
+                  className="text-xs font-medium text-primary hover:text-primary-hover transition-colors"
+                >
+                  {subcategory.name}
+                </Link>
+              )}
+            </div>
 
-            <h1 className="text-2xl sm:text-3xl font-bold font-sans leading-tight">
+            <h1 className="text-2xl sm:text-3xl font-bold leading-tight">
               {product.name}
             </h1>
 
             {/* Price */}
             <div className="mt-4">
               {product.variations ? (
-                <div className="space-y-3">
-                  <p className="text-sm text-foreground-muted">Available options:</p>
+                <div className="space-y-2">
+                  <p className="text-sm text-fg-secondary">
+                    Available options:
+                  </p>
                   {product.variations.map((v) => (
-                    <div key={v.name} className="flex items-center justify-between rounded-lg border border-border bg-background-card px-4 py-3">
+                    <div
+                      key={v.name}
+                      className="flex items-center justify-between rounded-lg border border-border px-4 py-3"
+                    >
                       <span className="text-sm font-medium">{v.name}</span>
-                      <span className="text-lg font-bold text-accent font-sans">${v.price.toFixed(2)}</span>
+                      <span className="text-lg font-bold">
+                        ${v.price.toFixed(2)}
+                      </span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <span className="text-3xl font-bold text-accent font-sans">${product.price.toFixed(2)}</span>
+                <span className="text-3xl font-bold">
+                  ${product.price.toFixed(2)}
+                </span>
               )}
             </div>
 
             {/* Buy button */}
-            <a
-              href={product.etsyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 flex items-center justify-center gap-2 rounded-lg bg-cta px-6 py-3.5 text-base font-semibold text-white hover:bg-cta-hover transition-colors w-full"
-            >
-              <ShoppingBag className="h-5 w-5" />
-              Buy on Etsy
-            </a>
+            <div className="mt-6">
+              <BuyButton marketplace={product.marketplace} />
+            </div>
 
             {/* Quick info */}
             <div className="mt-6 grid grid-cols-3 gap-3">
-              <div className="flex flex-col items-center rounded-lg border border-border bg-background-card p-3 text-center">
-                <Package className="h-4 w-4 text-accent mb-1" />
-                <span className="text-xs text-foreground-muted">Handcrafted</span>
-              </div>
-              <div className="flex flex-col items-center rounded-lg border border-border bg-background-card p-3 text-center">
-                <Truck className="h-4 w-4 text-accent mb-1" />
-                <span className="text-xs text-foreground-muted">Ships 3-5 days</span>
-              </div>
-              <div className="flex flex-col items-center rounded-lg border border-border bg-background-card p-3 text-center">
-                <Shield className="h-4 w-4 text-accent mb-1" />
-                <span className="text-xs text-foreground-muted">Etsy Protected</span>
-              </div>
-            </div>
-
-            {/* Description */}
-            <div className="mt-8 space-y-4">
-              {descriptionParagraphs.map((p, i) => (
-                <p key={i} className="text-sm text-foreground-muted leading-relaxed">{p}</p>
+              {[
+                { icon: Package, label: "Handcrafted" },
+                { icon: Truck, label: "Ships 3-5 days" },
+                { icon: Shield, label: "Buyer Protected" },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="flex flex-col items-center rounded-lg border border-border p-3 text-center"
+                >
+                  <item.icon className="h-4 w-4 text-primary mb-1" />
+                  <span className="text-xs text-fg-secondary">
+                    {item.label}
+                  </span>
+                </div>
               ))}
             </div>
 
+            {/* Description */}
+            <div className="mt-8 space-y-3">
+              {product.description
+                .split("\n\n")
+                .slice(0, 3)
+                .map((p, i) => (
+                  <p
+                    key={i}
+                    className="text-sm text-fg-secondary leading-relaxed"
+                  >
+                    {p}
+                  </p>
+                ))}
+            </div>
+
             {/* Features */}
-            <div className="mt-8">
-              <h2 className="text-lg font-semibold font-sans mb-3 flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-accent" />
-                What Makes These Special
-              </h2>
-              <ul className="space-y-2">
-                {product.features.map((feature, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-foreground-muted">
-                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-accent shrink-0" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Details */}
-            <div className="mt-8 grid grid-cols-2 gap-4">
-              <div>
-                <h3 className="text-sm font-semibold font-sans mb-2">Materials</h3>
-                <ul className="space-y-1">
-                  {product.materials.map((m, i) => (
-                    <li key={i} className="text-sm text-foreground-muted">{m}</li>
+            {product.features.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-base font-semibold mb-3">Features</h2>
+                <ul className="space-y-2">
+                  {product.features.map((f, i) => (
+                    <li
+                      key={i}
+                      className="flex items-start gap-2 text-sm text-fg-secondary"
+                    >
+                      <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                      {f}
+                    </li>
                   ))}
                 </ul>
               </div>
-              <div>
-                <h3 className="text-sm font-semibold font-sans mb-2">Colors</h3>
-                <ul className="space-y-1">
-                  {product.colors.map((c, i) => (
-                    <li key={i} className="text-sm text-foreground-muted">{c}</li>
+            )}
+
+            {/* Materials & Colors */}
+            <div className="mt-8 grid grid-cols-2 gap-6">
+              {product.materials.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-semibold mb-2">Materials</h3>
+                  <div className="flex flex-wrap gap-1.5">
+                    {product.materials.map((m, i) => (
+                      <span
+                        key={i}
+                        className="px-2.5 py-1 text-xs bg-surface rounded-full text-fg-secondary border border-border"
+                      >
+                        {m}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {product.colors.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-semibold mb-2">Colors</h3>
+                  <div className="flex flex-wrap gap-1.5">
+                    {product.colors.map((c, i) => (
+                      <span
+                        key={i}
+                        className="px-2.5 py-1 text-xs bg-surface rounded-full text-fg-secondary border border-border"
+                      >
+                        {c}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Tags */}
+            {product.tags.length > 0 && (
+              <div className="mt-8">
+                <h3 className="text-sm font-semibold mb-2">Tags</h3>
+                <div className="flex flex-wrap gap-1.5">
+                  {product.tags.slice(0, 10).map((t, i) => (
+                    <span
+                      key={i}
+                      className="px-2.5 py-1 text-xs bg-surface rounded-full text-fg-muted border border-border"
+                    >
+                      {t}
+                    </span>
                   ))}
-                </ul>
+                </div>
               </div>
-            </div>
-
-            {/* Perfect for */}
-            <div className="mt-8">
-              <h2 className="text-lg font-semibold font-sans mb-3">Perfect For</h2>
-              <ul className="space-y-2">
-                {product.perfectFor.map((use, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-foreground-muted">
-                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-cta shrink-0" />
-                    {use}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Care */}
-            <div className="mt-8">
-              <h2 className="text-lg font-semibold font-sans mb-3">Care Tips</h2>
-              <ul className="space-y-2">
-                {product.careTips.map((tip, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-foreground-muted">
-                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-foreground-muted shrink-0" />
-                    {tip}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            )}
           </div>
         </div>
 
         {/* FAQ */}
         <section className="mt-16 border-t border-border pt-12">
-          <h2 className="text-2xl font-bold font-sans mb-6">Frequently Asked Questions</h2>
-          <div className="grid sm:grid-cols-2 gap-6">
+          <h2 className="text-2xl font-bold mb-6">
+            Frequently Asked Questions
+          </h2>
+          <div className="grid sm:grid-cols-3 gap-4">
             {productFaqs.map((faq, i) => (
-              <div key={i} className="rounded-xl border border-border bg-background-card p-5">
-                <h3 className="text-sm font-semibold font-sans mb-2">{faq.question}</h3>
-                <p className="text-sm text-foreground-muted leading-relaxed">{faq.answer}</p>
+              <div
+                key={i}
+                className="rounded-xl border border-border p-5"
+              >
+                <h3 className="text-sm font-semibold mb-2">{faq.question}</h3>
+                <p className="text-sm text-fg-secondary leading-relaxed">
+                  {faq.answer}
+                </p>
               </div>
             ))}
           </div>
         </section>
 
         {/* Related */}
-        {relatedProducts.length > 0 && (
+        {related.length > 0 && (
           <section className="mt-16 border-t border-border pt-12">
-            <h2 className="text-2xl font-bold font-sans mb-6">You Might Also Like</h2>
+            <h2 className="text-2xl font-bold mb-6">You Might Also Like</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {relatedProducts.map((p) => (
+              {related.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
             </div>
